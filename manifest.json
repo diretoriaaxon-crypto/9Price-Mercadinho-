@@ -2,15 +2,16 @@
   "name": "Price - Gestão áXon",
   "short_name": "Price",
   "description": "Calculadora Estratégica áXon",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#001f3f",
+  "background_color": "#ffffff",
   "theme_color": "#ff6b00",
   "icons": [
     {
-      "src": "logo.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "./logo.png",
+      "sizes": "1000x1000",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
