@@ -27,7 +27,7 @@
         .btn-toggle.active { background: #001f3f; color: white; border-color: #001f3f; font-weight: bold; }
         .card-divisao { background: white; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 5px; }
     </style>
-</head> <link rel="manifest" href="manifest.json">
+</head>
 <body class="p-2 md:p-4">
     <div class="max-w-lg mx-auto bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-slate-200 mb-10">
         
@@ -43,6 +43,7 @@
             <button id="btn-espio" onclick="mudarAba('espio')" class="flex-1 py-3 text-slate-400 text-sm">Espionagem</button>
         </div>
 
+        <!-- ABA PRECIFICAÇÃO -->
         <div id="aba-preci" class="p-5 space-y-5">
             <section>
                 <h2 class="secao-titulo">1. Custos Fixos e Operação</h2>
@@ -102,6 +103,7 @@
             </div>
         </div>
 
+        <!-- ABA ESPIONAGEM -->
         <div id="aba-espio" class="hidden p-5 space-y-5">
             <section class="bg-orange-50 p-5 rounded-[2rem] border border-orange-200">
                 <h2 class="secao-titulo text-orange-700">🕵️ MODO ESPIONAGEM</h2>
@@ -127,7 +129,7 @@
     </div>
 
     <script>
-        let dadosRelatorio = {};
+        let modoAtual = 'fardo';
 
         function mascaraMoeda(i) {
             let v = i.value.replace(/\D/g, '');
@@ -141,4 +143,58 @@
         function parseValor(id) {
             let el = document.getElementById(id);
             if (!el) return 0;
-            let v = el.value.replace("R$ ", "").replace(/\
+            let v = el.value.replace("R$ ", "").replace(/\./g, "").replace(",", ".");
+            return parseFloat(v) || 0;
+        }
+
+        function mudarAba(aba) {
+            document.getElementById('aba-preci').classList.add('hidden');
+            document.getElementById('aba-espio').classList.add('hidden');
+            document.getElementById('btn-preci').classList.remove('aba-ativa');
+            document.getElementById('btn-espio').classList.remove('aba-ativa');
+            document.getElementById('btn-preci').classList.add('text-slate-400');
+            document.getElementById('btn-espio').classList.add('text-slate-400');
+
+            if (aba === 'preci') {
+                document.getElementById('aba-preci').classList.remove('hidden');
+                document.getElementById('btn-preci').classList.add('aba-ativa');
+                document.getElementById('btn-preci').classList.remove('text-slate-400');
+            } else {
+                document.getElementById('aba-espio').classList.remove('hidden');
+                document.getElementById('btn-espio').classList.add('aba-ativa');
+                document.getElementById('btn-espio').classList.remove('text-slate-400');
+            }
+        }
+
+        function setModo(modo) {
+            modoAtual = modo;
+            document.getElementById('mode-fardo').classList.remove('active');
+            document.getElementById('mode-quilo').classList.remove('active');
+            if(modo === 'fardo') document.getElementById('mode-fardo').classList.add('active');
+            else document.getElementById('mode-quilo').classList.add('active');
+        }
+
+        function calcularReal() {
+            // Seus cálculos de precificação aqui
+            document.getElementById('secao-divisao').classList.remove('hidden');
+            document.getElementById('resultado').classList.remove('hidden');
+            // Exemplo simples para preencher os campos
+            document.getElementById('v_final').innerText = "R$ 4,99";
+        }
+
+        function calcularEspio() {
+            let precoVizinho = parseValor('v_vizinho');
+            if (precoVizinho > 0) {
+                // Cálculo de markup reverso (Ex: 35%)
+                let custoEstimado = precoVizinho / 1.35;
+                document.getElementById('espio-custo').innerText = "R$ " + custoEstimado.toFixed(2).replace(".", ",");
+                document.getElementById('res-espio').classList.remove('hidden');
+            }
+        }
+
+        function zerarPreci() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
